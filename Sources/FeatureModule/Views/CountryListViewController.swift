@@ -9,57 +9,46 @@ import UIKit
 import Combine
 
 class CountryListViewController: UIViewController {
-    
-    //MARK: - Properties
-    
-    var input: PassthroughSubject<CountryListViewModel.Input, Never> = .init()
-    private var viewModel: CountryListViewModel!
-    private var baseURL: String = ""
+
+    // MARK: - Properties
+    private let viewModel: CountryListViewModel
     private var cancellables = Set<AnyCancellable>()
-    private var countriesList: CountryListResponse?
     
-    public init?(coder: NSCoder, baseURL: String) {
-        super.init(coder: coder)
-        self.baseURL = baseURL
-        viewModel = CountryListViewModel(baseURL: baseURL)
+    // MARK: - Init
+    init(viewModel: CountryListViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: CountryListViewController.className, bundle: .module)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        bind(to: viewModel)
-        getCountiresFromWebService()
-
-        // Do any additional setup after loading the view.
+        bindViewModel()
+        viewModel.getCountryList()
     }
     
-    //MARK: Binding
+    // MARK: - Actions
     
-    func bind(to viewModel: CountryListViewModel) {
-        input = PassthroughSubject<CountryListViewModel.Input, Never>()
-        let output = viewModel.transform(input: input.eraseToAnyPublisher())
-        output
-            .sink { [weak self] event in
-                switch event {
-                case .fetchCountriesDidSucceed(response: let response):
-                    self?.countriesList = response
-                    break
-                case .fetchCountriesDidFail(error: let error):
-                    break
+    // MARK: - Methods
+    
+    private func bindViewModel() {
+        viewModel.statusPublisher.sink { [weak self] state in
+            guard let self else { return }
+            switch state {
+                
+            case .fetchCountriesDidSucceed(response: let response):
+//                configureDataSource()
+                debugPrint(response)
+                
+            case .fetchCountriesDidFail(error: let error):
+                debugPrint(error.localizedString)
 
-                }
-            }.store(in: &cancellables)
+            }
+        }
+        .store(in: &cancellables)
     }
-
-
-    //MARK: - Functions
-    //Get Country list
-    func getCountiresFromWebService() {
-     
-        self.input.send(.getCountriesList)
-    }
-
 }

@@ -17,7 +17,7 @@ public class CountryList : Codable {
     public var flagIconUrl : String?
     public var iddCode : String?
     public var countryNameAR : String?
-    public var countryName : String!
+    public var countryName : String?
     
     public enum CodingKeys: String, CodingKey {
         case countryId = "countryId"

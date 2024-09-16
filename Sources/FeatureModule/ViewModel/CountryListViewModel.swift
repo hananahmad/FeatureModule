@@ -9,69 +9,41 @@ import Foundation
 import Combine
 import NetworkingLayer
 
-class CountryListViewModel: NSObject {
-    // MARK: -- Variables
-    private var output: PassthroughSubject<Output, Never> = .init()
+import Foundation
+import Combine
+
+final class CountryListViewModel {
+    // MARK: - Properties
     private var cancellables = Set<AnyCancellable>()
-    private var baseURL: String
+    private let countryListUseCase: CountryListUseCaseProtocol
+    private var statusSubject = PassthroughSubject<Output, Never>()
+    
+    var statusPublisher: AnyPublisher<Output, Never> {
+        statusSubject.eraseToAnyPublisher()
+    }
     
     // MARK: - Init
-    public init(baseURL: String) {
-        self.baseURL = baseURL
+    init(countryListUseCase: CountryListUseCaseProtocol) {
+        self.countryListUseCase = countryListUseCase
+    }
+    
+    // MARK: - Methods
+    
+    func getCountryList() {
+        countryListUseCase.getCountryList()
+            .sink { [weak self] state in
+                guard let self else { return }
+                switch state {
+                case .didSucceed(let response):
+                    debugPrint(response.countryList?.map({$0.countryName ?? ""}) ?? response)
+                    self.statusSubject.send(.fetchCountriesDidSucceed(response: response))
+
+                case .didFail(let errorString):
+                    self.statusSubject.send(.fetchCountriesDidFail(error: errorString))
+                }
+                
+            }
+            .store(in: &cancellables)
     }
 }
 
-
-extension CountryListViewModel {
-    func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
-        output = PassthroughSubject<Output, Never>()
-        input.sink { [weak self] event in
-            switch event {
-            case .getCountriesList:
-                self?.getCountries(baseURL: self?.baseURL ?? "")
-            }
-        }.store(in: &cancellables)
-        return output.eraseToAnyPublisher()
-    }
-    
-    
-    func getCountries(baseURL: String) {
-       //self.output.send(.showLoader(shouldShow: true))
-        let request = CountryListRequest()
-        request.firstCallFlag = true
-        request.lastModifiedDate = ""
-        
-        let service = LoginWithOtpRepository(
-            networkRequest: NetworkingLayerRequestable(requestTimeOut: 60), baseURL: baseURL,
-            endPoint: .getCountries
-        )
-        
-        service.getAllCountriesService(request: request)
-            .sink { [weak self] completion in
-                debugPrint(completion)
-                switch completion {
-                case .failure(let error):
-                    //self?.output.send(.showLoader(shouldShow: false))
-                    self?.output.send(.fetchCountriesDidFail(error: error))
-                case .finished:
-                    debugPrint("nothing much to do here")
-                }
-            } receiveValue: { [weak self] response in
-                debugPrint("got my response here \(response)")
-                //self?.output.send(.showLoader(shouldShow: false))
-                if response.countryList?.count ?? 0 > 0 {
-                    self?.output.send(.fetchCountriesDidSucceed(response: response))
-                    CountryListResponse.saveCountryListResponse(countries: response)
-                } else {
-                    if CountryListResponse.isCountriesListAvailableInCache() {
-                        if let res = CountryListResponse.getCountryListResponse(), let list = res.countryList, list.count > 0 {
-                            self?.output.send(.fetchCountriesDidSucceed(response: res))
-                        }
-                    } else {
-                        self?.output.send(.fetchCountriesDidFail(error: NetworkError.apiError(code: 0, error: (response.responseMsg ?? response.errorMsg) ?? "Error")))
-                    }
-                }
-            }
-        .store(in: &cancellables)
-    }
-}

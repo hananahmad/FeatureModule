@@ -15,6 +15,6 @@ extension CountryListViewModel {
     
     enum Output {
         case fetchCountriesDidSucceed(response: CountryListResponse)
-        case fetchCountriesDidFail(error: NetworkError)
+        case fetchCountriesDidFail(error: String)
     }
 }

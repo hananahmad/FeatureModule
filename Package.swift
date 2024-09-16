@@ -24,7 +24,8 @@ let package = Package(
             name: "FeatureModule",
         dependencies: [
             .product(name: "NetworkingLayer", package: "SuperNetworkLayer")
-        ]),
+        ],
+        resources: [.process("Resources")]),
         .testTarget(
             name: "FeatureModuleTests",
             dependencies: ["FeatureModule"]),

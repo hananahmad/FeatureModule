@@ -7,11 +7,10 @@
 
 import Foundation
 import NetworkingLayer
-import SmilesBaseMainRequestManager
 
 fileprivate typealias Headers = [String: String]
 // if you wish you can have multiple services like this in a project
-enum SmilesOnboardingRequestBuilder {
+enum CountryListRequestBuilder {
     
     // organise all the end points here for clarity
     case getCountries(request: CountryListRequest)
