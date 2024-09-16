@@ -1,0 +1,96 @@
+{
+  "originHash" : "fdab899cdc4fdfb9d266cd73bd29f620c0306c4853ab39bcdbba02b1c66d3f4b",
+  "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "state" : {
+        "revision" : "f455c2975872ccd2d9c81594c658af65716e9b9a",
+        "version" : "5.9.1"
+      }
+    },
+    {
+      "identity" : "cryptoswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/krzyzanowskim/CryptoSwift.git",
+      "state" : {
+        "revision" : "678d442c6f7828def400a70ae15968aef67ef52d",
+        "version" : "1.8.3"
+      }
+    },
+    {
+      "identity" : "sdwebimage",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SDWebImage/SDWebImage.git",
+      "state" : {
+        "revision" : "8a1be70a625683bc04d6903e2935bf23f3c6d609",
+        "version" : "5.19.7"
+      }
+    },
+    {
+      "identity" : "skeletonview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Juanpe/SkeletonView.git",
+      "state" : {
+        "revision" : "2f5274827d310e32c09325dd3e0007120940988e",
+        "version" : "1.31.0"
+      }
+    },
+    {
+      "identity" : "smilesbasemainrequest",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/smilesiosteam/SmilesBaseMainRequest.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "ddb0c99a6631cb93365c02894e2f92843a8a3bb8"
+      }
+    },
+    {
+      "identity" : "smilesfontsmanager",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/smilesiosteam/SmilesFontsManager.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "08f10b60a92cf507339595161289eabd55c9ab10"
+      }
+    },
+    {
+      "identity" : "smileslanguagemanager",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/smilesiosteam/SmilesLanguageManager.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "bcaf6af165e819a4ad2aaf91bb959a7339051eaa"
+      }
+    },
+    {
+      "identity" : "smilesstorage",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/smilesiosteam/SmilesStorage.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "83b0670cfb6ed00a1379ebf8826922589e5dbcbd"
+      }
+    },
+    {
+      "identity" : "smilesutilities",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/smilesiosteam/SmilesUtilities.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "b0dfde0d74632924ca63a24821ebaf44117ad279"
+      }
+    },
+    {
+      "identity" : "supernetworklayer",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/hananahmad/SuperNetworkLayer.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "4195c4e784e9b983a33453a48506a2289fac9656"
+      }
+    }
+  ],
+  "version" : 3
+}
